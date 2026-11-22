@@ -182,6 +182,11 @@ public final class JoyMapService {
                 activateProfile(profile)
                 logger.info("Auto-switched to profile: \(profile.name) for \(app)")
             }
+        } else {
+            mappingEngine.setProfile(nil)
+            analogHandler.releaseAllHeldInputs()
+            status.activeProfileName = nil
+            logger.info("Cleared profile for unsupported app: \(app)")
         }
     }
 }

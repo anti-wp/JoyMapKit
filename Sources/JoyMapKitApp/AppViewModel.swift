@@ -122,7 +122,7 @@ final class AppViewModel: ObservableObject {
         stopService()
         do {
             let svc = try JoyMapService()
-            try svc.start(profileOverride: name, autoSwitch: false)
+            try svc.start(profileOverride: name, autoSwitch: true)
             service = svc
             activeProfileName = name
             isEnabled = true
