@@ -1,0 +1,27 @@
+{
+  "id": "7D44A8C2-9F31-4E6B-AB52-6812F7C93010",
+  "name": "C64 Emulator Quit",
+  "version": 1,
+  "appBundleIDs": [
+    "com.piciji.denise",
+    "com.libretro.dist.RetroArch"
+  ],
+  "controllerTypes": ["xbox"],
+  "bindings": [
+    {
+      "input": {
+        "type": "chord",
+        "elements": ["Button Options", "Button Menu"]
+      },
+      "action": {
+        "type": "keyPress",
+        "keyCode": 12,
+        "modifiers": ["command"],
+        "key": "q"
+      }
+    }
+  ],
+  "layers": [],
+  "sticks": {},
+  "triggers": {}
+}

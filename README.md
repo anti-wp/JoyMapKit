@@ -1,4 +1,6 @@
-# JoyMapKit
+# JoyMapKit SE
+
+**JoyMapKit SE** is an unofficial community fork of [JoyMapKit](https://github.com/manaporkun/JoyMapKit) by **manaporkun**. His original project, our improvements.
 
 A macOS menu bar app that maps gamepad inputs to keyboard, mouse, and macros. Connect any MFi, Xbox, DualSense, DualShock, or Nintendo Pro controller and remap its inputs to keyboard shortcuts, mouse movement, scrolling, macros, and more.
 
@@ -26,18 +28,12 @@ Requires macOS 13+.
 
 ## Installation
 
-Download **[JoyMapKit.dmg](https://github.com/manaporkun/JoyMapKit/releases/latest/download/JoyMapKit-0.2.0.dmg)**, open it, and drag JoyMapKit to Applications.
-
-Or install from the terminal:
-
-```
-curl -sL https://github.com/manaporkun/JoyMapKit/releases/latest/download/JoyMapKit-0.2.0.dmg -o /tmp/JoyMapKit.dmg && hdiutil attach /tmp/JoyMapKit.dmg -quiet && cp -R "/Volumes/JoyMapKit/JoyMapKit.app" /Applications/ && hdiutil detach "/Volumes/JoyMapKit" -quiet && rm /tmp/JoyMapKit.dmg && open /Applications/JoyMapKit.app
-```
+Prebuilt JoyMapKit SE releases are not available yet. You can build the app from source.
 
 ### Build from Source
 
-```
-git clone https://github.com/manaporkun/JoyMapKit.git
+```bash
+git clone https://github.com/anti-wp/JoyMapKit.git
 cd JoyMapKit
 swift build -c release
 ```
@@ -68,6 +64,10 @@ Lean back with a controller and pair-program with Claude Code in Ghostty. JoyMap
 | Triggers | Left/right click |
 | Menu (turbo) | Hold + any button for rapid-fire repeats |
 
+### Retro Gaming with Denise and RetroArch
+
+Use an Xbox controller with standalone Denise or RetroArch. JoyMapKit automatically selects the emulator profile when either application is focused. The included `c64-emulator-quit.json` example maps View + Menu together to Command+Q, closing the emulator and returning to your frontend.
+
 ### Desktop Navigation Without a Mouse
 
 Use the controller as a secondary input device at your desk. Right stick moves the cursor, left stick scrolls, triggers click, face buttons handle Return/Escape/Space/Tab, and the D-Pad gives you arrow keys. Works everywhere -- the default profile matches all apps.
@@ -89,6 +89,8 @@ See [docs/use-case-scenarios.md](docs/use-case-scenarios.md) for detailed walkth
 ## Configuration
 
 Profiles are JSON files stored in `~/.config/joymapkit/profiles/`. You can edit them in the built-in profile editor or by hand. Example profiles are included in the `Examples/profiles/` directory.
+
+To use the C64 emulator example, copy `Examples/profiles/c64-emulator-quit.json` into `~/.config/joymapkit/profiles/`. JoyMapKit will then match it to Denise or RetroArch when an Xbox controller is connected.
 
 ### Profile Structure
 
