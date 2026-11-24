@@ -36,6 +36,27 @@ Download the prebuilt **Apple Silicon (arm64)** app from the [JoyMapKit SE v0.2.
 
 The **Emulator Quit** profile for Denise and RetroArch is bundled with the app and installed automatically on first launch if it is not already present.
 
+## Supported Applications
+
+JoyMapKit's Emulator Quit profile currently supports:
+
+| Application | Bundle ID |
+|---|---|
+| Denise | `com.piciji.denise` |
+| RetroArch | `com.libretro.dist.RetroArch` |
+
+### How to Find Another Application's Bundle ID
+
+1. Open Terminal.
+2. Run this command, replacing `YourEmulator.app` with the application's actual name:
+
+   ```bash
+   mdls -name kMDItemCFBundleIdentifier "/Applications/YourEmulator.app"
+   ```
+
+3. Copy the Bundle ID shown in the output.
+4. Provide the application name and Bundle ID when requesting support.
+
 For other architectures or to build from source, follow the instructions below.
 
 ### Build from Source
