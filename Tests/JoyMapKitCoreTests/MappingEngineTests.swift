@@ -58,6 +58,54 @@ final class MappingEngineTests: XCTestCase {
         XCTAssertFalse(mockDispatcher.dispatchedActions[1].pressed)
     }
 
+    func testOnReleaseChordWaitsForBothButtons() {
+        let action = ActionConfig.keyPress(ActionConfig.KeyPressAction(keyCode: 12, key: "q"))
+        let profile = Profile(name: "test", bindings: [
+            BindingConfig(input: .chord(["Button A", "Button B"]),
+                          action: action, holdBehavior: .onRelease)
+        ])
+        engine.setProfile(profile)
+        let handle = makeMockHandle()
+        engine.handleInput(elementName: "Button A", value: 1, from: handle)
+        engine.handleInput(elementName: "Button B", value: 1, from: handle)
+        XCTAssertTrue(mockDispatcher.dispatchedActions.isEmpty)
+        engine.handleInput(elementName: "Button A", value: 0, from: handle)
+        XCTAssertTrue(mockDispatcher.dispatchedActions.isEmpty)
+        engine.handleInput(elementName: "Button B", value: 0, from: handle)
+        XCTAssertEqual(mockDispatcher.dispatchedActions.count, 2)
+        XCTAssertTrue(mockDispatcher.dispatchedActions[0].pressed)
+        XCTAssertFalse(mockDispatcher.dispatchedActions[1].pressed)
+    }
+
+    func testOnReleaseChordWorksInReverseReleaseOrder() {
+        let action = ActionConfig.keyPress(ActionConfig.KeyPressAction(keyCode: 12, key: "q"))
+        let profile = Profile(name: "test", bindings: [
+            BindingConfig(input: .chord(["Button A", "Button B"]),
+                          action: action, holdBehavior: .onRelease)
+        ])
+        engine.setProfile(profile)
+        let handle = makeMockHandle()
+        engine.handleInput(elementName: "Button A", value: 1, from: handle)
+        engine.handleInput(elementName: "Button B", value: 1, from: handle)
+        engine.handleInput(elementName: "Button B", value: 0, from: handle)
+        XCTAssertTrue(mockDispatcher.dispatchedActions.isEmpty)
+        engine.handleInput(elementName: "Button A", value: 0, from: handle)
+        XCTAssertEqual(mockDispatcher.dispatchedActions.count, 2)
+    }
+
+    func testNormalChordStillDispatchesImmediately() {
+        let action = ActionConfig.keyPress(ActionConfig.KeyPressAction(keyCode: 49, key: "Space"))
+        let profile = Profile(name: "test", bindings: [
+            BindingConfig(input: .chord(["Button A", "Button B"]), action: action)
+        ])
+        engine.setProfile(profile)
+        let handle = makeMockHandle()
+        engine.handleInput(elementName: "Button A", value: 1, from: handle)
+        engine.handleInput(elementName: "Button B", value: 1, from: handle)
+        XCTAssertEqual(mockDispatcher.dispatchedActions.count, 1)
+        XCTAssertTrue(mockDispatcher.dispatchedActions[0].pressed)
+    }
+
     func testUnmappedButtonDoesNothing() {
         let profile = Profile(name: "test", bindings: [])
         engine.setProfile(profile)

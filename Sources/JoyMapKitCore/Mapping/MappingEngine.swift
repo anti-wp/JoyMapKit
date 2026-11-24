@@ -21,6 +21,8 @@ public final class MappingEngine {
     private struct ActiveChord {
         let id = UUID()
         let action: ActionConfig
+        let holdBehavior: HoldBehavior
+        var remainingElements: Set<String>
     }
 
     private var activeProfile: Profile?
@@ -185,7 +187,9 @@ public final class MappingEngine {
         }
         var releasedChords = Set<UUID>()
         for chord in chords where releasedChords.insert(chord.id).inserted {
-            dispatch(chord.action, pressed: false)
+            if chord.holdBehavior != .onRelease {
+                dispatch(chord.action, pressed: false)
+            }
         }
     }
 
@@ -211,11 +215,18 @@ public final class MappingEngine {
         case .chordMatched(let binding, let elements):
             // Chord matched — dispatch chord action, suppress individual actions
             let replacedChordIDs = Set(elements.compactMap { activeChordActions[$0]?.id })
-            dispatch(binding.action, pressed: true)
+            let holdBehavior = binding.holdBehavior ?? .onPress
+            if holdBehavior != .onRelease {
+                dispatch(binding.action, pressed: true)
+            }
             for id in replacedChordIDs {
                 releaseChord(id: id)
             }
-            let chord = ActiveChord(action: binding.action)
+            let chord = ActiveChord(
+                action: binding.action,
+                holdBehavior: holdBehavior,
+                remainingElements: Set(elements)
+            )
             for element in elements {
                 activeChordActions[element] = chord
                 // Remove any pending single presses from held state
@@ -232,8 +243,22 @@ public final class MappingEngine {
 
         // Check if this element was part of an active chord
         if let chord = activeChordActions[elementName] {
-            // Release the chord action when the first chord member is released
-            releaseChord(id: chord.id)
+            if chord.holdBehavior == .onRelease {
+                var remaining = chord.remainingElements
+                remaining.remove(elementName)
+                activeChordActions.removeValue(forKey: elementName)
+                if remaining.isEmpty {
+                    activeChordActions = activeChordActions.filter { $0.value.id != chord.id }
+                    dispatch(chord.action, pressed: true)
+                    dispatch(chord.action, pressed: false)
+                } else {
+                    for member in remaining {
+                        activeChordActions[member]?.remainingElements = remaining
+                    }
+                }
+            } else {
+                releaseChord(id: chord.id)
+            }
             return
         }
 
@@ -261,7 +286,9 @@ public final class MappingEngine {
     private func releaseChord(id: UUID) {
         guard let chord = activeChordActions.values.first(where: { $0.id == id }) else { return }
         activeChordActions = activeChordActions.filter { $0.value.id != id }
-        dispatch(chord.action, pressed: false)
+        if chord.holdBehavior != .onRelease {
+            dispatch(chord.action, pressed: false)
+        }
     }
 
     /// Called by ChordDetector when the chord window expires for a deferred press.

@@ -66,7 +66,7 @@ Lean back with a controller and pair-program with Claude Code in Ghostty. JoyMap
 
 ### Retro Gaming with Denise and RetroArch
 
-Use an Xbox controller with standalone Denise or RetroArch. JoyMapKit automatically selects the emulator profile when either application is focused. The included `c64-emulator-quit.json` example maps View + Menu together to Command+Q, closing the emulator and returning to your frontend.
+Use an Xbox controller with standalone Denise or RetroArch. JoyMapKit automatically selects the emulator profile when either application is focused. The included `emulator-quit.json` example maps View + Menu together to Command+Q, closing the emulator and returning to your frontend.
 
 ### Desktop Navigation Without a Mouse
 
@@ -90,7 +90,7 @@ See [docs/use-case-scenarios.md](docs/use-case-scenarios.md) for detailed walkth
 
 Profiles are JSON files stored in `~/.config/joymapkit/profiles/`. You can edit them in the built-in profile editor or by hand. Example profiles are included in the `Examples/profiles/` directory.
 
-To use the C64 emulator example, copy `Examples/profiles/c64-emulator-quit.json` into `~/.config/joymapkit/profiles/`. JoyMapKit will then match it to Denise or RetroArch when an Xbox controller is connected.
+To use the Emulator Quit example, copy `Examples/profiles/emulator-quit.json` into `~/.config/joymapkit/profiles/`. JoyMapKit will then match it to Denise or RetroArch when an Xbox controller is connected.
 
 ### Profile Structure
 
