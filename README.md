@@ -28,7 +28,15 @@ Requires macOS 13+.
 
 ## Installation
 
-Prebuilt JoyMapKit SE releases are not available yet. You can build the app from source.
+Download the prebuilt **Apple Silicon (arm64)** app from the [JoyMapKit SE v0.2.0 release](https://github.com/anti-wp/JoyMapKit/releases/tag/v0.2.0).
+
+1. Download `JoyMapKit-SE-macOS-arm64-v0.2.0.zip` from the release.
+2. Unzip the archive.
+3. Move `JoyMapKit.app` to your Applications folder and open it.
+
+The **Emulator Quit** profile for Denise and RetroArch is bundled with the app and installed automatically on first launch if it is not already present.
+
+For other architectures or to build from source, follow the instructions below.
 
 ### Build from Source
 
