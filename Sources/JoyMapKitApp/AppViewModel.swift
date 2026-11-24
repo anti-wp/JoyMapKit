@@ -52,6 +52,7 @@ final class AppViewModel: ObservableObject {
     init() {
         accessibilityGranted = PermissionChecker.isAccessibilityGranted()
         installDefaultProfilesIfNeeded()
+        installBundledEmulatorQuitProfileIfNeeded()
         loadProfiles()
         startControllerMonitoring()
         startAccessibilityPolling()
@@ -177,6 +178,27 @@ final class AppViewModel: ObservableObject {
         )
         try? store.save(defaultProfile)
         logger.info("Installed default profile")
+    }
+
+    private func installBundledEmulatorQuitProfileIfNeeded() {
+        let store = ProfileStore(configDirectory: ConfigManager.defaultConfigDirectory)
+        guard !store.exists(name: "Emulator Quit") else { return }
+
+        guard let url = Bundle.main.url(forResource: "emulator-quit", withExtension: "json") else {
+            logger.error("Bundled Emulator Quit profile is missing")
+            return
+        }
+
+        do {
+            let data = try Data(contentsOf: url)
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            let profile = try decoder.decode(Profile.self, from: data)
+            try store.save(profile)
+            logger.info("Installed bundled Emulator Quit profile")
+        } catch {
+            logger.error("Failed to install bundled Emulator Quit profile: \(error)")
+        }
     }
 
     private func loadProfiles() {

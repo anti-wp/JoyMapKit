@@ -37,6 +37,7 @@ app: build
 	cp .build/release/JoyMapKitApp $(APP_BUNDLE)/Contents/MacOS/JoyMapKit
 	@# Copy icon
 	cp Distribution/AppIcon.icns $(APP_BUNDLE)/Contents/Resources/AppIcon.icns
+	cp Examples/profiles/emulator-quit.json $(APP_BUNDLE)/Contents/Resources/emulator-quit.json
 	@# Generate minimal PkgInfo
 	echo -n "APPL????" > $(APP_BUNDLE)/Contents/PkgInfo
 	@# Code sign (ad-hoc for local use, replace with identity for distribution)
