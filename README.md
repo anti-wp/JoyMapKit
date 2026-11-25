@@ -93,9 +93,13 @@ Lean back with a controller and pair-program with Claude Code in Ghostty. JoyMap
 | Triggers | Left/right click |
 | Menu (turbo) | Hold + any button for rapid-fire repeats |
 
-### Retro Gaming with Denise and RetroArch
+### Retro Gaming: Return to ES-DE Without a Keyboard
 
-Use an Xbox controller with standalone Denise or RetroArch. JoyMapKit automatically selects the emulator profile when either application is focused. The included `emulator-quit.json` example maps View + Menu together to Command+Q, closing the emulator and returning to your frontend.
+Use JoyMapKit with **ES-DE (EmulationStation Desktop Edition)** as your game library and launcher. Start a game from ES-DE as usual: it might launch a standalone emulator such as Denise for Commodore 64 games, or open RetroArch with the core needed to run that system's games.
+
+When you're finished playing, press **View + Menu together** on your Xbox controller (the familiar Select + Start combination). JoyMapKit sends **Command + Q** to the running emulator, closing it cleanly and taking you straight back to ES-DE, ready to choose your next game. No keyboard needed.
+
+The included **Emulator Quit** profile is a ready-to-use example for Denise and RetroArch, added by this fork. But that's only one example of what JoyMapKit can do. Create profiles for individual applications and turn your controller into a custom control system for keyboard shortcuts, mouse movement, scrolling, macros and much more.
 
 ### Desktop Navigation Without a Mouse
 
